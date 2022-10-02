@@ -1,7 +1,7 @@
 from re import template
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import Question
-
+from django.http import Http404, HttpResponse
 
 # Create your views here.
 def index(request):
@@ -12,8 +12,9 @@ def index(request):
     return render(request, 'polls/index.html', context)
 
 
-def detail(request):
-    return HttpResponse("Hello, World. You're at the polls index")
+def detail(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/detail.html', {'question': question})
 
 
 def results(request):
