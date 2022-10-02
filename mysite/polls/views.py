@@ -4,6 +4,7 @@ from select import select
 from django.shortcuts import get_object_or_404, render
 from .models import Question, Choice
 from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 def index(request):
@@ -29,14 +30,12 @@ def vote(request, question_id):
         seleced_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
         # Redisplays the question voting form.
-        return render(request, 'polls/detail.html',{'question': question, 'error_message': "You didn't select a choice.",
-        })
+        return render(request, 'polls/detail.html',{'question': question, 'error_message': "You didn't select a choice.",})
     else:
         seleced_choice.votes += 1
         seleced_choice.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits back button
-
-    return HttpResponseRedirect(reverse('polls/results', args=(question.id)))
+    return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
