@@ -1,1 +1,3 @@
 ./overview/venv
+./product-mgt/backend/venv
+./product-mgt/frontend/node_modules
